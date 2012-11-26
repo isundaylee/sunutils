@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+
+require 'uri'
+
+REGEXP = /url=(.*)&ei=/
+
+url = ARGV[0]
+
+if !REGEXP.match(url)
+  puts "Not a Google URL. "
+else
+  puts URI.unescape(REGEXP.match(url)[1])
+end
