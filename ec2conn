@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -i ~/.ssh/lovenancy.pem ubuntu@amazondns
