@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+
+# For backing up SQLite 3 database as SQL dump. 
+
+require 'date'
+
+if ARGV.size < 2
+  puts 'Usage: dbbak database_path output_dir_path'
+  exit
+end
+
+dbfile, outdir = ARGV
+
+if !File.directory? outdir
+  if File.exists? outdir
+    puts "Output path exists and is not a directory. "
+    exit
+  else
+    print "Making directory #{outdir} ... "
+    Dir.mkdir outdir
+    puts "Done"
+  end
+end
+
+outfile = DateTime.now.strftime('%F %T').gsub(':', '_') + '.sql'
+outpath = File.join(outdir, outfile)
+
+print "Dumping to #{outpath} ... "
+
+sqlite = 'sqlite3'
+
+command = "#{sqlite} \"#{dbfile}\" .dump > \"#{outpath}\""
+
+system(command)
+
+puts "Done"
