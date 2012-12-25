@@ -3,6 +3,7 @@
 # For backing up SQLite 3 database as SQL dump. 
 
 require 'date'
+require 'fileutils'
 
 if ARGV.size < 2
   puts 'Usage: dbbak database_path output_dir_path'
@@ -17,7 +18,7 @@ if !File.directory? outdir
     exit
   else
     print "Making directory #{outdir} ... "
-    Dir.mkdir outdir
+    FileUtils.mkdir_p outdir
     puts "Done"
   end
 end
