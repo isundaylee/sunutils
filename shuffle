@@ -1,7 +1,3 @@
 #!/usr/bin/ruby
 
-if ARGV[0]
-  puts File.open(ARGV[0], 'r').readlines.shuffle.select{ |x| !x.chomp.empty? }.join()
-else
-  puts readlines.shuffle.select{ |x| !x.chomp.empty? }.join()
-end
+puts ARGF.lines.select { |line| !line.strip.empty? }.map { |line| line.strip }.shuffle.join("\n")
