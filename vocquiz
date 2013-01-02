@@ -1,0 +1,56 @@
+#!/usr/bin/ruby
+#
+# A tool for vocabulary quiz. 
+
+# Define the logger here. 
+# Use a %s to placehold the word to be logged. 
+#
+# Example: echo %s
+LOGGER = 'echo "%s" >> ~/Sandbox/unfamiliar_words'
+
+# Set the definer here
+# Use a %s to placehold the word to be logged. 
+#
+# Example: dict %s
+DEFINER = 'dict "%s"'
+
+def usage
+  puts "Usage: vocquiz wordlist_path"
+  exit
+end
+
+def warning(msg)
+  puts msg
+end
+
+
+# Print usage information if invalid arguments are given
+usage unless ARGV.any?
+
+# Retrieve wordlist
+wordlist_file = ARGV.delete_at(0)
+wordlist = IO.readlines(wordlist_file).select { |s| !s.strip.empty? }.collect { |s| s.strip.downcase }
+
+# Do the quiz
+wordcount = wordlist.size
+current = 0
+
+wordlist.each do |word|
+  # Update progress
+  current += 1
+
+  # Print the word
+  print "(#{'%3d' % current} / #{'%3d' % wordcount}) #{word} "
+
+  # Get answer
+  ans = gets.strip
+
+  # If the user does not know the word
+  unless ans.empty? or ans.match(/^y/)
+    # Log the word
+    print `#{LOGGER % word}`
+
+    # Show the definition of the word
+    print `#{DEFINER % word}`
+  end
+end
