@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'open-uri'
+require 'nokogiri'
+
+def define_word(word)
+  url = "http://dict-co.iciba.com/api/dictionary.php?w=#{word}"
+  page = open(url).read
+  xml = Nokogiri::XML(page)
+  pos = xml.css('dict pos').collect { |x| x.content }
+  acc = xml.css('dict acceptation').collect { |x| x.content.strip }
+  n = pos.size
+  output = ""
+  output << word << "\n"
+  0.upto(n - 1) do |i|
+    output << ' ' * 4
+    output << pos[i]
+    output << acc[i] << "\n"
+  end
+  output.chomp
+end
+
+if ARGV.any?
+
+  puts ['-' * 40, 
+        define_word(ARGV[0].strip.downcase), 
+        '-' * 40].join("\n")
+
+else
+
+  puts ['-' * 40, 
+        define_word(gets.strip),
+        '-' * 40].join("\n") while true
+
+end
