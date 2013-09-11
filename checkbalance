@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+
+require 'mechanize' 
+
+class BalanceChecker
+
+  BANKING_URL = 'https://www.bankofamerica.com/mobile/banking-wap.go'
+
+  def initialize(username, password, questions, answers)
+    @username = username
+    @password = password
+    @questions = questions
+    @answers = answers
+  end
+
+  def check_balance
+    agent = Mechanize.new
+    # agent.user_agent_alias = 'Windows IE 7'
+    # agent.max_history = 1    
+
+    # Get to the sign-in page
+    agent.get(BANKING_URL)
+    agent.page.link_with(text: 'Sign in').click
+
+    # Fill in onlineId
+    id_form = agent.page.forms[0]
+    id_form.onlineId = @username
+    id_form.submit
+
+    if agent.page.body =~ /We do not recognize your device./
+      # Need to answer security question
+      success = false
+      
+      for i in 0...@questions.length
+        if agent.page.body =~ Regexp.new(@questions[i])
+          question_form = agent.page.forms[0]
+          question_form.challengeQuestionAnswer = @answers[i]
+          question_form.submit
+          success = true
+          break
+        end
+      end
+
+      if !success
+        puts 'Unrecognized safety question encountered, aborting. '
+        return -1
+      end
+
+    end
+
+    # Input password
+    password_form = agent.page.forms[0]
+    password_form.password = @password
+    password_form.submit
+
+    # Showing accounts
+    agent.page.link_with(text: 'Accounts ').click
+
+    # Extracting the balance
+    balance = (agent.page.body.match(/Available Balance:\$(.*)</)[1])
+
+    return balance
+  end
+
+end
+
+username, password, q1, a1, q2, a2, q3, a3 = File.open('BANK_ACCOUNT', 'r').read.lines.to_a
+username.strip!
+password.strip!
+q1, q2, q3 = q1.strip, q2.strip, q3.strip
+a1, a2, a3 = a1.strip, a2.strip, a3.strip
+qs = [q1, q2, q3]
+as = [a1, a2, a3]
+checker = BalanceChecker.new(username, password, qs, as)
+
+puts checker.check_balance
