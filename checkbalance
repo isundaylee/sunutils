@@ -64,7 +64,7 @@ class BalanceChecker
 
 end
 
-username, password, q1, a1, q2, a2, q3, a3 = File.open('BANK_ACCOUNT', 'r').read.lines.to_a
+username, password, q1, a1, q2, a2, q3, a3 = File.open(File.dirname(__FILE__) + '/BANK_ACCOUNT', 'r').read.lines.to_a
 username.strip!
 password.strip!
 q1, q2, q3 = q1.strip, q2.strip, q3.strip
