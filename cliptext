@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+
+CLIPPING_FILE = File.expand_path('~/Clips')
+
+text = STDIN.read
+
+open(CLIPPING_FILE, 'a') { |f|
+  f.puts `date`
+  f.puts "-" * 80
+  f.puts text
+
+  f.puts
+}
