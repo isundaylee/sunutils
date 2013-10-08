@@ -65,13 +65,16 @@ class ClipBook
 
   def append(path)
     require 'sqlite3'
+    require 'fileutils'
+
+    FileUtils.mkdir_p File.dirname(path)
 
     db = nil
 
     if File.exists?(path)
-      db = SQLite3::Database.new path
-    else
       db = SQLite3::Database.open path
+    else
+      db = SQLite3::Database.new path, {}
     end
 
     db.execute "CREATE TABLE IF NOT EXISTS clips(id INTEGER PRIMARY KEY AUTOINCREMENT, datetime TEXT, content TEXT, hash TEXT)"

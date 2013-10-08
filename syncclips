@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require_relative 'lib/clip_book'
+
+CLIPS_PATH = File.expand_path('~/Clips')
+CLIPS_DB_PATH = File.expand_path('~/DropBox/Synced/Clips.db')
+
+clipbook = ClipBook.parse(File.open(CLIPS_PATH, 'r:UTF-8').read)
+clipbook.append(CLIPS_DB_PATH)
