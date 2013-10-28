@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo $1 | ruby -e "require 'cgi' and proxy_host = 'http://ljh.me:8080' and puts \"#{proxy_host}/?url=#{CGI.escape(STDIN.read.strip)}\"" | pbcopy
