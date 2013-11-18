@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+reg = Regexp.new(ARGV[0])
+
+Dir['*'].each do |f|
+	next unless reg.match(f)	
+	p = f.gsub(reg, ARGV[1])
+
+	puts "mv \"#{f}\" \"#{p}\""
+end
