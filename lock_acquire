@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'open-uri'
+
+id = ARGV[0]
+url = "http://ljh.me/simple_lock.php?action=acquire&id=#{id}"
+path = File.join('/tmp', id + '.simple_lock')
+
+response = open(url).read
+
+if response.strip != '0'
+	# succeeded
+	IO.write(path, response)
+end

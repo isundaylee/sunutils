@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'open-uri'
+
+id = ARGV[0]
+path = File.join('/tmp', id + '.simple_lock')
+
+puts File.exists?(path) ? 'true' : 'false'

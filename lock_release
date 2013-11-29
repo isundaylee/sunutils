@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'open-uri'
+
+id = ARGV[0]
+path = File.join('/tmp', id + '.simple_lock')
+
+exit if !File.exists?(path)
+key = IO.read(path)
+
+url = "http://ljh.me/simple_lock.php?action=release&id=#{id}&key=#{key.strip}"
+
+response = open(url).read
+
+if response.strip == '1'
+	# succeeded
+	File.unlink(path)
+end
