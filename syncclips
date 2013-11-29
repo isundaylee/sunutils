@@ -2,8 +2,14 @@
 
 require_relative 'lib/clip_book'
 
-CLIPS_PATH = File.expand_path('~/Clips')
+CLIPS_PATH = File.expand_path('~/.Clips')
 CLIPS_DB_PATH = File.expand_path('~/DropBox/Synced/Clips.db')
+CLIPS_ARCHIVE_PATH = File.expand_path('~/.ClipsArchive')
 
-clipbook = ClipBook.parse(File.open(CLIPS_PATH, 'r:UTF-8').read)
+text = File.open(CLIPS_PATH, 'r:UTF-8') { |f| f.read }
+
+clipbook = ClipBook.parse(text)
 clipbook.append(CLIPS_DB_PATH)
+
+File.open(CLIPS_ARCHIVE_PATH, 'a') { |f| f.write(text) }
+File.open(CLIPS_PATH, 'w') { |f| }
