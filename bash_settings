@@ -1,2 +1,5 @@
 alias gpom="git push origin master"
 alias glom="git pull origin master"
+alias sl="ssh root@ljh.me"
+alias cpg="cd ~/Programming/Git"
+alias sli="ssh root@ljh.me"
