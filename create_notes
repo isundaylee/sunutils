@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'appscript'
+require 'sqlite3'
+include Appscript
+
+path = File.expand_path('~/Dropbox/Synced/Clips.db')
+
+app = app('Notes')
+
+account = app.accounts[its.name.eq("On My Mac")][1]
+folder = account.folders[its.name.eq("Clips")][1]
+notes = folder.notes
+n = notes.count
+
+app.delete notes
+
+if File.exists?(path)
+	db = SQLite3::Database.open path
+else
+	db = SQLite3::Database.new path, {}
+end
+
+stm = db.prepare "SELECT * FROM clips"
+rs = stm.execute
+
+clips = rs.to_a
+
+days = clips.group_by { |c| DateTime.iso8601(c[1]).to_date.to_s }
+
+days.each do |a, b|
+
+	text = b.map { |c| "<div><u><b>#{c[1]}</b></u></div><div>&nbsp;</div>#{c[2].split("\n").map { |p| "<div>#{p}&nbsp;</div>" }.join}<div>&nbsp;</div>" }.join
+
+	html = "<html><head></head><body>#{text}</body></html>"
+
+	n = folder.make(:new => :note)
+	n.name.set a
+	n.body.set html
+
+	# b.each do |n|
+	# 	puts n[2]
+	# end
+end
