@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'taglib'
+
+path = ARGV[0]
+
+TagLib::MPEG::File.open(path) do |f|
+	tag = f.id3v2_tag
+
+	tag.frame_list.each do |frame|
+		puts frame.frame_id + " " + frame.class.to_s + " " + frame.to_s
+	end
+end
