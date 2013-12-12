@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd $PROJECTS/Git/itunes_lyrics 
+nohup macruby itunes_lyrics > $HOME/Library/Logs/itunes_lyrics.log 2>&1 &

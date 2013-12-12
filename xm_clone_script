@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export PATH=$HOME/Programming/Git/sunutils:$PATH
+export RUBYOPT='-E utf-8:utf-8'
+
+eval "$(/usr/local/bin/rbenv init -)"
+
+xm_clone
