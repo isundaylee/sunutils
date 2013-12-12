@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export PATH=$HOME/Programming/Git/sunutils:$PATH
+eval "$(/usr/local/bin/rbenv init -)"
+
+xm_clone
