@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd $PROJECTS/Git/omnibar
+nohup macruby omnibar.rb > $HOME/Library/Logs/itunes_lyrics.log 2>&1 &

@@ -1,3 +1,4 @@
 #!/bin/sh
 
-nohup macruby $PROJECTS/Git/xiami_cloner/assets/xm_menubar > $HOME/Library/Logs/xm_menubar.log 2>&1 &
+cd $PROJECTS/Git/xiami_cloner/assets
+nohup ./xm_menubar > $HOME/Library/Logs/xm_menubar.log 2>&1 &
