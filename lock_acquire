@@ -2,8 +2,10 @@
 
 require 'open-uri'
 
+HOST = 'http://ljh.me:10037'
+
 id = ARGV[0]
-url = "http://ljh.me/simple_lock.php?action=acquire&id=#{id}"
+url = "#{HOST}/lock/#{id}"
 path = File.join('/tmp', id + '.simple_lock')
 
 response = open(url).read
