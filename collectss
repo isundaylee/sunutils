@@ -1,2 +1,2 @@
 #!/bin/bash
-mv /Users/Sunday/Desktop/Screen\ Shot* /Users/Sunday/Pictures/Screen\ Shots/
+mv $HOME/Desktop/Screen\ Shot* $HOME/Pictures/Screen\ Shots/
